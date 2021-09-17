@@ -1,11 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace ConsoleAppMisc
 {
-    class Program
+    public class Program
     {
         static void Main(string[] args)
+        {
+            //OverLoadEx();
+            //CollcetionsEx();
+        }
+
+        static void OverLoadEx()
         {
             int BirthYear = 1982;
             Console.WriteLine($"Int: Person born {BirthYear} is {PersonsAge(BirthYear)} yers old this year");
@@ -14,7 +21,28 @@ namespace ConsoleAppMisc
             Console.WriteLine($"Int: Person born {BirthYear} is {PersonsAge(myDate)} yers old this year");
         }
 
+        static void CollcetionsEx()
+        {
+            List<double> luckyNumbers = new List<double> { 13.0, 7.1 };
+            double number = 42.24;
 
+            AddNumberToList(luckyNumbers, number);
+
+            Console.WriteLine("number is: " + number);
+
+            foreach (double item in luckyNumbers)
+            {
+                Console.WriteLine("lucky: " + item);
+            }
+
+            Console.WriteLine("add good text as number: " + AddNumberToList(luckyNumbers, "8,8"));
+            Console.WriteLine("add bad text as number: " + AddNumberToList(luckyNumbers, "hello"));
+
+            foreach (double item in luckyNumbers)
+            {
+                Console.WriteLine("lucky: " + item);
+            }
+        }
 
         static int PersonsAge(int BirthYear)
         {
@@ -34,22 +62,30 @@ namespace ConsoleAppMisc
             return yearsDiff;
         }
 
-        static bool AddNumberToList(List<double> numbersList, double toAdd)
+        public static bool AddNumberToList(List<double> numbersList, double toAdd)
         {
             numbersList.Add(toAdd);
+            toAdd -= 12;//this only changes the copy inside this method, it will not change anything outside this method.
             return true;
         }
 
-        static bool AddNumberToList(List<double> numbersList, string toAdd)
+        public static bool AddNumberToList(List<double> numbersList, string toAdd)
         {
             double numberToAdd = 0;
 
-            if (double.TryParse(toAdd, out numberToAdd))
+            if (string.IsNullOrWhiteSpace(toAdd))
+            {
+                return false;
+            }
+
+            toAdd = toAdd.Replace(',', '.');
+            if (double.TryParse(toAdd, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out numberToAdd))
             {
                 numbersList.Add(numberToAdd);
                 return true;
             }
             return false;
         }
+
     }
 }
