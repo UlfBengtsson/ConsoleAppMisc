@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ConsoleAppMisc.Models;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 
@@ -10,6 +11,23 @@ namespace ConsoleAppMisc
         {
             //OverLoadEx();
             //CollcetionsEx();
+            BadCakeMaker();
+        }
+
+        static void BadCakeMaker()
+        {
+            TimeSpan time = new TimeSpan(0, 45, 0);
+            double temp = 175.2;
+            Cake burntCake = new Cake("strabarry", "cream", time, temp);
+
+            try
+            {
+                burntCake.BakeTheCake(temp * 9, time * 5);
+            }
+            catch (Exception exceptionThrown)
+            {
+                Console.WriteLine(exceptionThrown.Message);
+            }
         }
 
         static void OverLoadEx()
